@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WHO IS WOLF NATSUYO — STREAK SYSTEM</title>
+<style>
+:root{--bg:#08090d;--panel:#11131b;--line:#292d3b;--red:#ff3158;--cyan:#62f5ff;--green:#7cffb2;--muted:#9ca3b7}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#32111e 0%,transparent 48%),var(--bg);color:#f5f7ff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+.wrap{width:min(980px,calc(100% - 28px));margin:0 auto;padding:26px 0 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:17px}
+.brand{font-size:12px;letter-spacing:.22em;font-weight:900;color:var(--cyan)}
+.status{font-size:11px;letter-spacing:.12em;border:1px solid #ff315866;color:#ff8297;padding:7px 10px;border-radius:99px;background:#ff31580e}
+h1{font-size:clamp(28px,6vw,54px);line-height:1.02;letter-spacing:-.055em;margin:32px 0 10px;font-weight:950}
+h1 span{color:var(--red);text-shadow:0 0 26px #ff315855}
+.sub{color:var(--muted);font-size:14px;line-height:1.7;margin:0 0 26px}
+.hero{position:relative;border:1px solid #37313e;border-radius:24px;background:linear-gradient(140deg,#17141d,#0d1018 62%,#171018);padding:clamp(20px,5vw,38px);overflow:hidden;box-shadow:0 18px 80px #0008}
+.hero:after{content:"";position:absolute;width:270px;height:270px;right:-100px;top:-120px;border-radius:50%;border:1px solid #ff315844;box-shadow:0 0 0 25px #ff315808,0 0 0 55px #ff315805;pointer-events:none}
+.kicker{font-size:11px;letter-spacing:.22em;color:var(--cyan);font-weight:800}
+.bigrow{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:20px 0 18px}
+.count{font-size:clamp(56px,12vw,94px);font-weight:950;letter-spacing:-.07em;line-height:.9;font-variant-numeric:tabular-nums}
+.count small{font-size:clamp(22px,4vw,36px);color:#71788e;letter-spacing:-.04em}
+.percent{text-align:right;color:var(--muted);font-size:12px;line-height:1.7}
+.percent strong{display:block;font-size:26px;color:#fff;letter-spacing:-.04em}
+.track{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin:22px 0 12px}
+.slot{height:12px;border-radius:4px;background:#272a36;border:1px solid #3a3d4a;transition:.25s}
+.slot.done{background:var(--green);border-color:var(--green);box-shadow:0 0 15px #7cffb277}
+.slot.latest{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 18px #62f5ff99}
+.progress-label{display:flex;justify-content:space-between;gap:10px;font-size:11px;letter-spacing:.08em;color:var(--muted)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+button{font:inherit;cursor:pointer;border-radius:13px;padding:15px 16px;font-weight:850;letter-spacing:.01em;transition:transform .15s,filter .15s,border-color .15s}
+button:hover{filter:brightness(1.12);transform:translateY(-2px)}button:active{transform:translateY(0) scale(.99)}
+.primary{background:linear-gradient(110deg,#ff3158,#ff5b78);color:white;border:1px solid #ff7890;box-shadow:0 7px 28px #ff31582a}
+.danger{background:#17121a;color:#ff8da0;border:1px solid #773044}
+.secondary{background:#151823;color:#c8cee0;border:1px solid #303548}
+.notice{min-height:25px;margin-top:15px;font-size:13px;color:var(--cyan);font-weight:700}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:14px}
+.card{background:#10121a;border:1px solid var(--line);border-radius:18px;padding:20px}
+.card h2{margin:0 0 15px;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.rules{display:grid;gap:12px;color:#c5cad9;font-size:13px;line-height:1.6}
+.rule{display:flex;gap:10px;align-items:flex-start}.symbol{color:var(--cyan);font-weight:900}
+.deadline{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 14px;border:1px solid #34384a;border-radius:12px;background:#0c0e15;margin-bottom:14px}
+.deadline span{font-size:11px;color:var(--muted);letter-spacing:.1em}.deadline strong{font-size:14px}
+.log{max-height:250px;overflow:auto;display:grid;gap:8px}
+.entry{padding:10px 12px;border-radius:10px;background:#0b0d13;border:1px solid #252938;font-size:12px;color:#c6ccdc;display:flex;gap:10px}
+.entry b{color:var(--cyan);font-variant-numeric:tabular-nums}
+.empty{font-size:12px;color:#71788e;line-height:1.7}
+.footer{color:#656c80;font-size:11px;line-height:1.7;text-align:center;margin:20px auto 0;max-width:680px}
+.overlay{position:fixed;inset:0;background:#05060beF;display:none;place-items:center;padding:20px;z-index:10}
+.overlay.show{display:grid;animation:fade .25s}
+.modal{max-width:520px;width:100%;border:1px solid var(--green);border-radius:22px;background:linear-gradient(150deg,#12231d,#0b1012);padding:30px;text-align:center;box-shadow:0 0 70px #7cffb222}
+.modal h2{font-size:clamp(26px,6vw,44px);margin:12px 0;color:var(--green)}
+.modal p{color:#c4d6d0;line-height:1.8;font-size:14px}
+.shake{animation:shake .35s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.top{align-items:flex-start}.status{max-width:140px;text-align:center}.hero{border-radius:18px}.card{padding:17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><div class="brand">W.N. / STREAK PROTOCOL</div><div class="status" id="status">● SYSTEM ACTIVE</div></header>
+  <h1>WHO IS <span>WOLF</span><br>NATSUYO?</h1>
+  <p class="sub">10曲連続・良曲ストリークチャレンジ<br>本当のボカロの良さを伝えろ。記録を途切れさせるな。</p>
+  <main class="hero" id="hero">
+    <div class="kicker">CONSECUTIVE GOOD SONGS</div>
+    <div class="bigrow"><div class="count"><span id="count">0</span><small> / 10</small></div><div class="percent"><strong id="percent">0%</strong>STREAK COMPLETION</div></div>
+    <div class="track" id="track"></div>
+    <div class="progress-label"><span id="leftLabel">STREAK NOT STARTED</span><span id="remaining">10 SONGS TO GO</span></div>
+    <div class="actions">
+      <button class="primary" id="good">＋ 良曲認定　/　STREAK +1</button>
+      <button class="danger" id="reset">⚠ 失格　/　RESET STREAK</button>
+    </div>
+    <div class="notice" id="notice" role="status">READY — 判定を開始してください。</div>
+  </main>
+  <section class="grid">
+    <div class="card">
+      <h2>◆ PROTOCOL / 判定ルール</h2>
+      <div class="rules">
+        <div class="rule"><span class="symbol">01</span><span>良曲と認めた曲だけをカウント。ボタンで手動記録。</span></div>
+        <div class="rule"><span class="symbol">02</span><span>AI使用と判断された曲、パクリっぽいと判断された曲は良曲カウント対象外。</span></div>
+        <div class="rule"><span class="symbol">03</span><span>連続記録が途切れたらストリークは <b>0</b> に戻る。</span></div>
+        <div class="rule"><span class="symbol">04</span><span>10曲連続達成で解除。判定そのものは自動では行いません。</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>◆ DEADLINE / 期限</h2>
+      <div class="deadline"><div><span>FINAL DEADLINE</span><br><strong>2027.05.29</strong></div><div style="font-size:24px">⌛</div></div>
+      <h2>◆ EVENT LOG / 記録</h2>
+      <div class="log" id="log"><div class="empty">まだ記録はありません。<br>最初の良曲を認定してストリークを始めよう。</div></div>
+    </div>
+  </section>
+  <p class="footer">LOCAL DEMO • 記録はこのブラウザ内に保存されます。別の端末・ブラウザとは同期されません。<br>AI使用や盗作の有無を自動判定するツールではありません。疑いだけで事実と断定せず、根拠を確認してください。</p>
+</div>
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+  <div class="modal"><div style="font-size:42px">✦</div><div class="kicker">MISSION COMPLETE</div><h2 id="winTitle">STREAK CLEARED.</h2><p>10曲連続良曲を達成！<br><b>WHO IS WOLF NATSUYO</b><br>解除条件クリア。</p><button class="primary" id="closeWin">記録を確認する</button></div>
+</div>
+<script>
+const KEY='wolfNatsuyoStreakV1';
+const $=id=>document.getElementById(id);
+let data={streak:0,log:[],unlocked:false};
+try{const saved=JSON.parse(localStorage.getItem(KEY));if(saved&&Number.isInteger(saved.streak)){data={...data,...saved};}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+function addLog(message,type='normal'){data.log.unshift({message,type,time:new Date().toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})});data.log=data.log.slice(0,50);}
+function render(){
+ $('count').textContent=data.streak;
+ $('percent').textContent=(data.streak*10)+'%';
+ $('remaining').textContent=data.streak===10?'MISSION COMPLETE':`${10-data.streak} SONG${10-data.streak===1?'':'S'} TO GO`;
+ $('leftLabel').textContent=data.streak===0?'STREAK NOT STARTED':data.streak===10?'STREAK CLEARED':'STREAK IN PROGRESS';
+ $('status').textContent=data.unlocked?'✦ MISSION CLEARED':'● SYSTEM ACTIVE';
+ $('status').style.color=data.unlocked?'var(--green)':'#ff8297';
+ $('status').style.borderColor=data.unlocked?'#7cffb277':'#ff315866';
+ $('track').innerHTML='';
+ for(let i=0;i<10;i++){const s=document.createElement('div');s.className='slot'+(i<data.streak?' done':'')+(i===data.streak-1&&data.streak>0?' latest':'');$('track').appendChild(s);}
+ $('good').disabled=data.unlocked;$('good').textContent=data.unlocked?'✓ MISSION CLEARED':'＋ 良曲認定　/　STREAK +1';
+ $('good').style.opacity=data.unlocked?'.6':'1';
+ $('reset').disabled=data.streak===0||data.unlocked;$('reset').style.opacity=$('reset').disabled?'.45':'1';
+ if(data.log.length){$('log').innerHTML='';data.log.forEach(item=>{const row=document.createElement('div');row.className='entry';const b=document.createElement('b');b.textContent=item.time;const span=document.createElement('span');span.textContent=item.message;row.append(b,span);$('log').appendChild(row);});}
+ else $('log').innerHTML='<div class="empty">まだ記録はありません。<br>最初の良曲を認定してストリークを始めよう。</div>';
+ save();
+}
+$('good').addEventListener('click',()=>{
+ if(data.unlocked)return;
+ data.streak=Math.min(10,data.streak+1);
+ addLog(`${data.streak}曲目：良曲認定 ＋1`,'good');
+ $('notice').textContent=data.streak===10?'✦ 10/10 — MISSION COMPLETE.':'✓ GOOD SONG VERIFIED — STREAK +1';
+ render();
+ if(data.streak===10){data.unlocked=true;addLog('10曲連続達成 — 解除成功！','win');render();$('overlay').classList.add('show');}
+});
+$('reset').addEventListener('click',()=>{
+ if(data.streak===0||data.unlocked)return;
+ const previous=data.streak;
+ if(!confirm(`現在の${previous}曲ストリークをリセットしますか？`))return;
+ data.streak=0;addLog(`ストリーク失敗：${previous}曲で終了。0から再スタート。`,'fail');
+ $('notice').textContent='⚠ STREAK BROKEN — RESET TO ZERO.';
+ $('hero').classList.remove('shake');void $('hero').offsetWidth;$('hero').classList.add('shake');
+ render();
+});
+$('closeWin').addEventListener('click',()=>$('overlay').classList.remove('show'));
+render();
+</script>
+</body>
+</html>
